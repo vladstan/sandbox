@@ -4,93 +4,169 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
+    <title>ZeroCrew</title>
     <meta
       name="description"
-      content="High-performance HTML based website template."
+      content="Run by founders. Powered by AI. The atelier for the new model of company creation."
     />
+    <meta name="theme-color" content="#000000" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #000;
+        color: #fff;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        text-align: center;
+        max-width: 800px;
+        margin-bottom: 4rem;
+      }
+
+      .hero-image {
+        width: auto;
+        height: 200px;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .hero .tagline {
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        color: #888;
+        margin-bottom: 2rem;
+        font-weight: 400;
+      }
+
+      .hero .description {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: #666;
+        font-weight: 300;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .links-section {
+        margin-top: 3rem;
+        text-align: center;
+      }
+
+      .links-section h2 {
+        font-size: 1.2rem;
+        color: #888;
+        margin-bottom: 1rem;
+        font-weight: 400;
+      }
+
+      .links-section a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        margin: 0 1rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s ease;
+      }
+
+      .links-section a:hover {
+        border-bottom-color: #666;
+      }
+
+      .startups-links {
+        margin-top: 20px;
+      }
+
+      .atelier-credit {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .atelier-credit a {
+        color: #888;
+        text-decoration: none;
+      }
+
+      .atelier-credit a:hover {
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+        
+        .hero-image {
+          width: 150px;
+          margin-bottom: 2rem;
+        }
+        
+        .hero {
+          margin-bottom: 2rem;
+        }
+
+        .links-section a {
+          display: block;
+          margin: 0.5rem 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
+    <div class="container">
+      <div class="hero">
+        <img src="hero-image.jpg" alt="ZeroCrew" class="hero-image" />
+        <h1>Run by founders. <br> Powered by AI.</h1>
+        <p class="tagline">The atelier for the new model of company creation <br>Zero employees, AI leverage, and deeply aligned partners.</p>
+        
+        <div class="links-section mt-20">
+          <div class="startups-links">
+            <h2>Startups</h2>
+            <a href="https://kubrio.com" target="_blank">Kubrio</a>
+            <a href="https://sprintdojo.com" target="_blank">SprintDojo</a>
+            <a href="https://vivaltro.com" target="_blank">Vivaltro</a>
+            <a href="https://www.vladstan.com/post/zero-crew-startup-experiment" target="_blank">Assembling a crew</a>
+          </div>
+          
+          <div class="atelier-credit">
+            Atelier founded by <br><a href="https://vladstan.com" target="_blank">Vlad Stan</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
