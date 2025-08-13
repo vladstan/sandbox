@@ -110,14 +110,45 @@
 
       /* Form Styles */
       .fit-check-form {
-        max-width: 600px;
+        max-width: 700px;
         margin: 0 auto;
         text-align: left;
         width: 100%;
       }
       
+      .form-section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: rgba(16, 185, 129, 0.02);
+        border: 1px solid rgba(16, 185, 129, 0.1);
+        border-radius: 12px;
+      }
+      
+      .form-section h2 {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #10b981;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.01em;
+        border-bottom: 2px solid rgba(16, 185, 129, 0.2);
+        padding-bottom: 0.5rem;
+      }
+      
       .form-group {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .form-group-inline {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      
+      .form-group-inline input[type="text"] {
+        flex: 1;
+        margin-left: 0.5rem;
       }
       
       .form-group label {
@@ -171,31 +202,54 @@
       
       .checkbox-group {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      
+      .radio-group {
+        display: flex;
+        flex-wrap: wrap;
         gap: 0.75rem;
         margin-top: 0.5rem;
       }
       
-      .checkbox-label {
+      .checkbox-label, .radio-label {
         display: flex !important;
         align-items: center;
         font-weight: 400 !important;
         font-size: 0.9rem !important;
         color: #d1d5db !important;
         cursor: pointer;
-        padding: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid rgba(16, 185, 129, 0.2);
         border-radius: 6px;
-        transition: background-color 0.3s ease;
+        transition: all 0.3s ease;
+        background: rgba(16, 185, 129, 0.03);
       }
       
-      .checkbox-label:hover {
-        background: rgba(16, 185, 129, 0.05);
+      .checkbox-label:hover, .radio-label:hover {
+        background: rgba(16, 185, 129, 0.08);
+        border-color: rgba(16, 185, 129, 0.3);
       }
       
-      .checkbox-label input[type="checkbox"] {
+      .checkbox-label input[type="checkbox"], 
+      .radio-label input[type="radio"] {
         width: auto !important;
         margin-right: 0.5rem;
         accent-color: #10b981;
+      }
+      
+      .checkbox-label input[type="checkbox"]:checked + span,
+      .radio-label input[type="radio"]:checked + span {
+        color: #10b981;
+        font-weight: 500;
+      }
+      
+      .checkbox-label:has(input:checked),
+      .radio-label:has(input:checked) {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: #10b981;
       }
       
       .form-group select {
@@ -312,8 +366,21 @@
           padding: 2rem 1rem;
         }
         
+        .form-section {
+          padding: 1.5rem;
+        }
+        
         .checkbox-group {
           grid-template-columns: 1fr;
+        }
+        
+        .radio-group {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        
+        .radio-label {
+          justify-content: flex-start;
         }
         
         .form-group input,
@@ -328,6 +395,16 @@
           left: 0;
           margin-bottom: 2rem;
           display: inline-block;
+        }
+        
+        .form-group-inline {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.75rem;
+        }
+        
+        .form-group-inline input[type="text"] {
+          margin-left: 0;
         }
       }
 
@@ -359,96 +436,526 @@
     <div class="container">
       <div class="header">
         <img src="kubrio-logo.png" alt="Kubrio Logo" class="logo">
-        <div class="brand-tag">60 Second Fit Check</div>
-        <h1>Let's Find the Perfect Start for Your Teen</h1>
-        <p class="subtitle">Answer a few quick questions so we can tailor the perfect AI learning experience for your teen's interests and goals.</p>
+        <div class="brand-tag">Kubrio AI Sandbox — 60-Second Fit Check</div>
+        <h1>Quick snapshot so we can see if Kubrio is right for your teen—and if we're right for you.</h1>
+        <p class="subtitle">No spam. We'll only use this to assess fit and follow up.</p>
       </div>
       
       <form action="https://formspree.io/f/xkgzyloe" method="POST" class="fit-check-form">
         <!-- Honeypot field for spam protection -->
         <input type="text" name="_gotcha" style="display:none" />
         
-        <div class="form-group">
-          <label for="parent_name">Parent/Guardian Name</label>
-          <input type="text" id="parent_name" name="parent_name" required>
+        <!-- Section 1: Parent & Teen -->
+        <div class="form-section">
+          <h2>1) Parent & Teen</h2>
+          
+          <div class="form-group">
+            <label for="parent_name">Parent/Guardian Name</label>
+            <input type="text" id="parent_name" name="parent_name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone (optional)</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+          
+          <div class="form-group">
+            <label for="teen_name">Teen's Name</label>
+            <input type="text" id="teen_name" name="teen_name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="teen_age">Age</label>
+            <select id="teen_age" name="teen_age" required>
+              <option value="">Select age</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="location">Location / Time Zone</label>
+            <input type="text" id="location" name="location" placeholder="e.g., New York EST, London GMT" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="referral">How did you hear about Kubrio?</label>
+            <select id="referral" name="referral">
+              <option value="">Select one</option>
+              <option value="friend">Friend</option>
+              <option value="school">School</option>
+              <option value="social">Social media</option>
+              <option value="search">Search engine</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
         </div>
-        
-        <div class="form-group">
-          <label for="teen_name">Teen's Name</label>
-          <input type="text" id="teen_name" name="teen_name" required>
+
+        <!-- Section 2: Current AI Use -->
+        <div class="form-section">
+          <h2>2) Current AI Use</h2>
+          
+          <div class="form-group">
+            <label>What is your teen doing with AI today? (select all that apply)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="building_apps">
+                <span>Building their own apps</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="creating_images">
+                <span>Creating images</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="writing_stories">
+                <span>Writing stories</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="chatgpt_learning">
+                <span>Using ChatGPT for most learning</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="creating_videos">
+                <span>Creating videos</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="creating_music">
+                <span>Creating music</span>
+              </label>
+            </div>
+            <div class="form-group-inline">
+              <label class="checkbox-label">
+                <input type="checkbox" name="current_ai_use" value="other" id="ai_use_other">
+                <span>Other:</span>
+              </label>
+              <input type="text" name="current_ai_use_other" placeholder="Please specify">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Tools they're familiar with (select all that apply)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="v0">
+                <span>v0</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="replit">
+                <span>Replit</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="bolt">
+                <span>Bolt</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="cursor">
+                <span>Cursor</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="claude_code">
+                <span>Claude Code</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="suno">
+                <span>Suno</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="chatgpt">
+                <span>ChatGPT</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="veo3">
+                <span>Veo 3</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="sora">
+                <span>Sora</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="midjourney">
+                <span>Midjourney</span>
+              </label>
+            </div>
+            <div class="form-group-inline">
+              <label class="checkbox-label">
+                <input type="checkbox" name="familiar_tools" value="other" id="tools_other">
+                <span>Other:</span>
+              </label>
+              <input type="text" name="familiar_tools_other" placeholder="Please specify">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="coding_experience">Coding experience</label>
+            <select id="coding_experience" name="coding_experience">
+              <option value="">Select level</option>
+              <option value="none">None yet</option>
+              <option value="beginner">Beginner</option>
+              <option value="comfortable">Comfortable</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
         </div>
-        
-        <div class="form-group">
-          <label for="teen_age">Teen's Age</label>
-          <select id="teen_age" name="teen_age" required>
-            <option value="">Select age</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-          </select>
+
+        <!-- Section 3: Portfolio & Community -->
+        <div class="form-section">
+          <h2>3) Portfolio & Community</h2>
+          
+          <div class="form-group">
+            <label>Does your teen have a portfolio to showcase work?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="has_portfolio" value="yes">
+                <span>Yes</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="has_portfolio" value="no">
+                <span>Not yet</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="portfolio_link">If yes, link:</label>
+              <input type="url" id="portfolio_link" name="portfolio_link" placeholder="https://">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Are they part of a creator community with peers their age?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="in_community" value="yes">
+                <span>Yes</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="in_community" value="no">
+                <span>No</span>
+              </label>
+            </div>
+          </div>
         </div>
-        
-        <div class="form-group">
-          <label for="email">Your Email Address</label>
-          <input type="email" id="email" name="email" required>
+
+        <!-- Section 4: Goals & Pain Points -->
+        <div class="form-section">
+          <h2>4) Goals & Pain Points</h2>
+          
+          <div class="form-group">
+            <label>What outcomes matter most to you? (select up to 3)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="safe_space">
+                <span>Safe space for teens using AI</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="responsible_use">
+                <span>Responsible, independent AI use</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="master_tools">
+                <span>Master the right tools (not all the tools)</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="reduce_costs">
+                <span>Reduce subscription sprawl/cost</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="find_peers">
+                <span>Find ambitious peers to learn/build with</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="portfolio">
+                <span>Publish a portfolio that opens doors</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="mentors">
+                <span>Guidance from expert mentors</span>
+              </label>
+            </div>
+            <div class="form-group-inline">
+              <label class="checkbox-label">
+                <input type="checkbox" name="desired_outcomes" value="other" id="outcomes_other">
+                <span>Other:</span>
+              </label>
+              <input type="text" name="desired_outcomes_other" placeholder="Please specify">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="project_goal">If your teen could complete one project in the next 60 days, what should it be?</label>
+            <input type="text" id="project_goal" name="project_goal" placeholder="Short answer">
+          </div>
         </div>
-        
-        <div class="form-group">
-          <label for="interests">What interests your teen most?</label>
-          <div class="checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" name="interests" value="coding">
-              <span>Coding & Programming</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="interests" value="music">
-              <span>Music Production</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="interests" value="video">
-              <span>Video Creation</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="interests" value="design">
-              <span>Design & Art</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="interests" value="writing">
-              <span>Creative Writing</span>
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="interests" value="games">
-              <span>Game Development</span>
-            </label>
+
+        <!-- Section 5: Learning Environment -->
+        <div class="form-section">
+          <h2>5) Learning Environment</h2>
+          
+          <div class="form-group">
+            <label for="school_type">School type</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="school_type" value="public">
+                <span>Public</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="school_type" value="private">
+                <span>Private</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="school_type" value="homeschool">
+                <span>Homeschool/Unschool</span>
+              </label>
+            </div>
+            <div class="form-group-inline">
+              <label class="radio-label">
+                <input type="radio" name="school_type" value="other" id="school_other">
+                <span>Other:</span>
+              </label>
+              <input type="text" name="school_type_other" placeholder="Please specify">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Level of independence</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="independence_level" value="needs_guidance">
+                <span>Needs guidance</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="independence_level" value="mostly_independent">
+                <span>Mostly independent</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="independence_level" value="super_independent">
+                <span>Super independent</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Parent involvement preferred</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="parent_involvement" value="light">
+                <span>Light check-ins</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="parent_involvement" value="moderate">
+                <span>Moderate</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="parent_involvement" value="hands_on">
+                <span>Hands-on</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 6: Time & Commitment -->
+        <div class="form-section">
+          <h2>6) Time & Commitment</h2>
+          
+          <div class="form-group">
+            <label>Weekly time your teen can commit</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="weekly_time" value="1-2hrs">
+                <span>1–2 hrs</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="weekly_time" value="3-5hrs">
+                <span>3–5 hrs</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="weekly_time" value="6-8hrs">
+                <span>6–8 hrs</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="weekly_time" value="8+hrs">
+                <span>8+ hrs</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Desired start timeframe</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="start_timeframe" value="asap">
+                <span>ASAP</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="start_timeframe" value="30days">
+                <span>Within 30 days</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="start_timeframe" value="this_term">
+                <span>This term</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="start_timeframe" value="flexible">
+                <span>Flexible</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 7: Access & Equipment -->
+        <div class="form-section">
+          <h2>7) Access & Equipment</h2>
+          
+          <div class="form-group">
+            <label>Devices your teen uses now (select all that apply)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="devices" value="laptop_desktop">
+                <span>Laptop/desktop</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="devices" value="tablet">
+                <span>Tablet</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="devices" value="mobile">
+                <span>Mobile</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="devices" value="vr">
+                <span>VR</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="devices" value="wearables">
+                <span>Wearables</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Operating system</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="operating_system" value="apple">
+                <span>Apple (macOS/iOS)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="operating_system" value="android">
+                <span>Android</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="operating_system" value="microsoft">
+                <span>Microsoft (Windows)</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="operating_system" value="linux">
+                <span>Linux</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="access_restrictions">Anything we should know about access or restrictions?</label>
+            <input type="text" id="access_restrictions" name="access_restrictions" placeholder="Short answer">
+          </div>
+        </div>
+
+        <!-- Section 8: Budget & Subscriptions -->
+        <div class="form-section">
+          <h2>8) Budget & Subscriptions</h2>
+          
+          <div class="form-group">
+            <label>Current spend on AI tools for your teen (estimate)</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="current_spend" value="0">
+                <span>$0</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="current_spend" value="<25">
+                <span>&lt;$25/mo</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="current_spend" value="25-100">
+                <span>$25–$100/mo</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="current_spend" value="100-250">
+                <span>$100–$250/mo</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="current_spend" value=">250">
+                <span>&gt;$250/mo</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Are you paying for tools you'd like to consolidate?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="consolidate_tools" value="yes">
+                <span>Yes</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="consolidate_tools" value="no">
+                <span>No</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="consolidate_tools" value="not_sure">
+                <span>Not sure</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 9: Safety & Fit -->
+        <div class="form-section">
+          <h2>9) Safety & Fit</h2>
+          
+          <div class="form-group">
+            <label>Comfort with online publishing (with guidance)?</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="publishing_comfort" value="yes">
+                <span>Yes</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="publishing_comfort" value="no">
+                <span>No</span>
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="publishing_comfort" value="case_by_case">
+                <span>Case-by-case</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="content_boundaries">Any content boundaries we should respect?</label>
+            <input type="text" id="content_boundaries" name="content_boundaries" placeholder="Short answer">
+          </div>
+        </div>
+
+        <!-- Section 10: Anything Else -->
+        <div class="form-section">
+          <h2>10) Anything Else</h2>
+          
+          <div class="form-group">
+            <label for="additional_info">What else should we know about your teen?</label>
+            <textarea id="additional_info" name="additional_info" rows="4" placeholder="Open text"></textarea>
           </div>
         </div>
         
-        <div class="form-group">
-          <label for="experience">Current experience level</label>
-          <select id="experience" name="experience" required>
-            <option value="">Select level</option>
-            <option value="beginner">Complete beginner</option>
-            <option value="some">Some experience</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
-        </div>
+        <button type="submit" class="cta-button">Submit →</button>
         
-        <div class="form-group">
-          <label for="goals">What would your teen like to create or achieve?</label>
-          <textarea id="goals" name="goals" rows="3" placeholder="Tell us about their interests and goals..."></textarea>
-        </div>
-        
-        <div class="form-group">
-          <label for="referral">How did you hear about us? (Optional)</label>
-          <input type="text" id="referral" name="referral">
-        </div>
-        
-        <button type="submit" class="cta-button">GET MY TEEN'S PERSONALIZED PLAN →</button>
-        
-        <p class="cta-subtitle">Built for families.<br> Privacy first. Teen safe.</p>
+        <p class="cta-subtitle">Privacy-first. Teen-safe. We review every application for mutual fit.</p>
       </form>
     </div>
     
@@ -502,6 +1009,12 @@
         
         // Add form submission handling
         form.addEventListener('submit', function(e) {
+          // Validate form before submission
+          if (!validateForm()) {
+            e.preventDefault();
+            return false;
+          }
+          
           // Show loading state
           submitButton.textContent = 'Submitting...';
           submitButton.disabled = true;
@@ -541,35 +1054,125 @@
           });
         });
         
-        // Ensure at least one interest is selected
-        const interestCheckboxes = form.querySelectorAll('input[name="interests"]');
-        const interestGroup = form.querySelector('label[for="interests"]').closest('.form-group');
-        
-        function validateInterests() {
-          const checkedBoxes = form.querySelectorAll('input[name="interests"]:checked');
-          const isValid = checkedBoxes.length > 0;
+        // Validate "up to 3" checkbox groups
+        function validateMaxCheckboxes(name, max, errorMsg) {
+          const checkboxes = form.querySelectorAll(`input[name="${name}"]:not([value="other"])`);
+          const otherCheckbox = form.querySelector(`input[name="${name}"][value="other"]`);
+          const firstGroup = checkboxes[0]?.closest('.form-group');
           
+          function validate() {
+            const checked = form.querySelectorAll(`input[name="${name}"]:checked:not([value="other"])`);
+            const otherChecked = otherCheckbox?.checked;
+            const totalChecked = checked.length + (otherChecked ? 1 : 0);
+            const isValid = totalChecked <= max;
+            
+            if (!isValid && firstGroup) {
+              firstGroup.setAttribute('data-error', errorMsg);
+            } else if (firstGroup) {
+              firstGroup.removeAttribute('data-error');
+            }
+            
+            // Disable unchecked boxes if max reached
+            if (totalChecked >= max) {
+              checkboxes.forEach(cb => {
+                if (!cb.checked) cb.disabled = true;
+              });
+              if (otherCheckbox && !otherCheckbox.checked) otherCheckbox.disabled = true;
+            } else {
+              checkboxes.forEach(cb => cb.disabled = false);
+              if (otherCheckbox) otherCheckbox.disabled = false;
+            }
+            
+            return isValid;
+          }
+          
+          checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', validate);
+          });
+          if (otherCheckbox) {
+            otherCheckbox.addEventListener('change', validate);
+          }
+          
+          return validate;
+        }
+        
+        // Set up validation for "desired outcomes" (max 3)
+        const validateOutcomes = validateMaxCheckboxes('desired_outcomes', 3, 'Please select up to 3 outcomes that matter most');
+        
+        // Handle "Other" text inputs
+        function handleOtherInputs() {
+          // AI Use Other
+          const aiUseOther = form.querySelector('#ai_use_other');
+          const aiUseOtherText = form.querySelector('input[name="current_ai_use_other"]');
+          if (aiUseOther && aiUseOtherText) {
+            aiUseOther.addEventListener('change', function() {
+              aiUseOtherText.style.display = this.checked ? 'block' : 'none';
+              if (!this.checked) aiUseOtherText.value = '';
+            });
+          }
+          
+          // Tools Other
+          const toolsOther = form.querySelector('#tools_other');
+          const toolsOtherText = form.querySelector('input[name="familiar_tools_other"]');
+          if (toolsOther && toolsOtherText) {
+            toolsOther.addEventListener('change', function() {
+              toolsOtherText.style.display = this.checked ? 'block' : 'none';
+              if (!this.checked) toolsOtherText.value = '';
+            });
+          }
+          
+          // Outcomes Other
+          const outcomesOther = form.querySelector('#outcomes_other');
+          const outcomesOtherText = form.querySelector('input[name="desired_outcomes_other"]');
+          if (outcomesOther && outcomesOtherText) {
+            outcomesOther.addEventListener('change', function() {
+              outcomesOtherText.style.display = this.checked ? 'block' : 'none';
+              if (!this.checked) outcomesOtherText.value = '';
+            });
+          }
+          
+          // School Type Other
+          const schoolOther = form.querySelector('#school_other');
+          const schoolOtherText = form.querySelector('input[name="school_type_other"]');
+          if (schoolOther && schoolOtherText) {
+            schoolOther.addEventListener('change', function() {
+              schoolOtherText.style.display = this.checked ? 'block' : 'none';
+              if (!this.checked) schoolOtherText.value = '';
+            });
+          }
+        }
+        
+        // Initialize other inputs handling
+        handleOtherInputs();
+        
+        // Comprehensive form validation
+        function validateForm() {
+          let isValid = true;
+          
+          // Check required fields
+          const requiredFields = form.querySelectorAll('[required]');
+          requiredFields.forEach(field => {
+            if (!field.checkValidity()) {
+              field.setAttribute('aria-invalid', 'true');
+              isValid = false;
+            }
+          });
+          
+          // Check desired outcomes (max 3)
+          if (!validateOutcomes()) {
+            isValid = false;
+          }
+          
+          // If validation fails, scroll to first error
           if (!isValid) {
-            interestGroup.setAttribute('data-error', 'Please select at least one area of interest');
-          } else {
-            interestGroup.removeAttribute('data-error');
+            const firstError = form.querySelector('[aria-invalid="true"], [data-error]');
+            if (firstError) {
+              firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
           }
           
           return isValid;
         }
-        
-        interestCheckboxes.forEach(checkbox => {
-          checkbox.addEventListener('change', validateInterests);
-        });
-        
-        // Validate interests on form submission
-        form.addEventListener('submit', function(e) {
-          if (!validateInterests()) {
-            e.preventDefault();
-            interestGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return false;
-          }
-        });
       });
     </script>
   </body>
