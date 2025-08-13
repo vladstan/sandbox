@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="/_vercel/insights/script.js"></script>
+    <title>60 Second Fit Check - Kubrio AI Sandbox for Teens</title>
+    <meta
+      name="description"
+      content="Complete our 60-second fit check to get a personalized starter plan for your teen's AI learning journey."
+    />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'JetBrains Mono', 'Courier New', monospace;
+        background: #000;
+        color: #fff;
+        line-height: 1.6;
+        overflow-x: hidden;
+        position: relative;
+      }
+      
+      .matrix-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.1;
+        z-index: -1;
+      }
+
+      .container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header {
+        text-align: center;
+        max-width: 700px;
+        margin-bottom: 3rem;
+      }
+      
+      .brand-tag {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        padding: 0.5rem 1rem;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0 auto 2rem;
+        display: inline-block;
+      }
+      
+      .logo {
+        width: 60px;
+        height: 60px;
+        margin: 1rem auto;
+        display: block;
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+      }
+      
+      .logo:hover {
+        opacity: 1;
+      }
+
+      .header h1 {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+        color: #ffffff;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      }
+
+      .header .subtitle {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(1rem, 2.2vw, 1.3rem);
+        color: #a3a3a3;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        line-height: 1.5;
+      }
+
+      /* Form Styles */
+      .fit-check-form {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: left;
+        width: 100%;
+      }
+      
+      .form-group {
+        margin-bottom: 2rem;
+      }
+      
+      .form-group label {
+        display: block;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.01em;
+      }
+      
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(16, 185, 129, 0.05);
+        border: 2px solid rgba(16, 185, 129, 0.2);
+        border-radius: 8px;
+        color: #ffffff;
+        font-family: 'JetBrains Mono', 'Courier New', monospace;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+      
+      .form-group input::placeholder,
+      .form-group textarea::placeholder {
+        color: #6b7280;
+        font-style: italic;
+      }
+      
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        background: rgba(16, 185, 129, 0.08);
+      }
+      
+      .form-group input:invalid,
+      .form-group select:invalid {
+        border-color: rgba(239, 68, 68, 0.5);
+      }
+      
+      .form-group input:valid,
+      .form-group select:valid {
+        border-color: rgba(16, 185, 129, 0.3);
+      }
+      
+      .checkbox-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+      }
+      
+      .checkbox-label {
+        display: flex !important;
+        align-items: center;
+        font-weight: 400 !important;
+        font-size: 0.9rem !important;
+        color: #d1d5db !important;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+      }
+      
+      .checkbox-label:hover {
+        background: rgba(16, 185, 129, 0.05);
+      }
+      
+      .checkbox-label input[type="checkbox"] {
+        width: auto !important;
+        margin-right: 0.5rem;
+        accent-color: #10b981;
+      }
+      
+      .form-group select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.75rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+      }
+      
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+      }
+      
+      .cta-button {
+        background: linear-gradient(135deg, #065f46, #10b981);
+        color: #fff;
+        text-decoration: none;
+        padding: 1.25rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        border: 2px solid #10b981;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        margin: 2rem 0 1rem;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+      }
+      
+      .cta-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+      
+      .cta-button:hover:before {
+        left: 100%;
+      }
+      
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+        border-color: #34d399;
+      }
+      
+      .cta-button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      .cta-subtitle {
+        font-size: 0.9rem;
+        color: #6b7280;
+        font-weight: 400;
+        font-style: italic;
+        text-align: center;
+        margin-top: 1rem;
+      }
+      
+      /* Error state styling */
+      .form-group[data-error]:after {
+        content: attr(data-error);
+        display: block;
+        color: #ef4444;
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      
+      .form-group[data-error] label {
+        color: #ef4444;
+      }
+
+      .back-link {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        color: #10b981;
+        text-decoration: none;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      
+      .back-link:hover {
+        color: #34d399;
+      }
+      
+      .back-link:before {
+        content: '← ';
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 2rem 1rem;
+        }
+        
+        .checkbox-group {
+          grid-template-columns: 1fr;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+          font-size: 1rem;
+        }
+        
+        .back-link {
+          position: relative;
+          top: 0;
+          left: 0;
+          margin-bottom: 2rem;
+          display: inline-block;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 1.5rem 0.75rem;
+        }
+        
+        .cta-button {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas class="matrix-bg" id="matrix-canvas"></canvas>
+    
+    <a href="/" class="back-link">Back to Home</a>
+    
+    <div class="container">
+      <div class="header">
+        <img src="kubrio-logo.png" alt="Kubrio Logo" class="logo">
+        <div class="brand-tag">60 Second Fit Check</div>
+        <h1>Let's Find the Perfect Start for Your Teen</h1>
+        <p class="subtitle">Answer a few quick questions so we can tailor the perfect AI learning experience for your teen's interests and goals.</p>
+      </div>
+      
+      <form action="https://formspree.io/f/xkgzyloe" method="POST" class="fit-check-form">
+        <!-- Honeypot field for spam protection -->
+        <input type="text" name="_gotcha" style="display:none" />
+        
+        <div class="form-group">
+          <label for="parent_name">Parent/Guardian Name</label>
+          <input type="text" id="parent_name" name="parent_name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="teen_name">Teen's Name</label>
+          <input type="text" id="teen_name" name="teen_name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="teen_age">Teen's Age</label>
+          <select id="teen_age" name="teen_age" required>
+            <option value="">Select age</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Your Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="interests">What interests your teen most?</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="interests" value="coding">
+              <span>Coding & Programming</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="interests" value="music">
+              <span>Music Production</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="interests" value="video">
+              <span>Video Creation</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="interests" value="design">
+              <span>Design & Art</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="interests" value="writing">
+              <span>Creative Writing</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="interests" value="games">
+              <span>Game Development</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="experience">Current experience level</label>
+          <select id="experience" name="experience" required>
+            <option value="">Select level</option>
+            <option value="beginner">Complete beginner</option>
+            <option value="some">Some experience</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="goals">What would your teen like to create or achieve?</label>
+          <textarea id="goals" name="goals" rows="3" placeholder="Tell us about their interests and goals..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="referral">How did you hear about us? (Optional)</label>
+          <input type="text" id="referral" name="referral">
+        </div>
+        
+        <button type="submit" class="cta-button">GET MY TEEN'S PERSONALIZED PLAN →</button>
+        
+        <p class="cta-subtitle">Built for families.<br> Privacy first. Teen safe.</p>
+      </form>
+    </div>
+    
+    <script>
+      // Matrix digital rain effect
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+      const fontSize = 14;
+      const columns = canvas.width / fontSize;
+      
+      const drops = [];
+      for (let x = 0; x < columns; x++) {
+        drops[x] = 1;
+      }
+      
+      function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#10b981';
+        ctx.font = fontSize + 'px JetBrains Mono';
+        
+        for (let i = 0; i < drops.length; i++) {
+          const text = characters.charAt(Math.floor(Math.random() * characters.length));
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }
+      
+      setInterval(draw, 35);
+      
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+      
+      // Form validation and accessibility enhancements
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.fit-check-form');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        
+        // Add form submission handling
+        form.addEventListener('submit', function(e) {
+          // Show loading state
+          submitButton.textContent = 'Submitting...';
+          submitButton.disabled = true;
+          
+          // Reset button after delay (Formspree handles the actual submission)
+          setTimeout(() => {
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+          }, 3000);
+        });
+        
+        // Enhance accessibility for required fields
+        const requiredFields = form.querySelectorAll('[required]');
+        requiredFields.forEach(field => {
+          field.setAttribute('aria-required', 'true');
+          
+          const label = form.querySelector(`label[for="${field.id}"]`);
+          if (label && !label.textContent.includes('*')) {
+            label.innerHTML = label.innerHTML + ' <span style="color: #10b981;">*</span>';
+          }
+        });
+        
+        // Add real-time validation feedback
+        requiredFields.forEach(field => {
+          field.addEventListener('blur', function() {
+            if (!this.checkValidity()) {
+              this.setAttribute('aria-invalid', 'true');
+            } else {
+              this.setAttribute('aria-invalid', 'false');
+            }
+          });
+          
+          field.addEventListener('input', function() {
+            if (this.checkValidity()) {
+              this.setAttribute('aria-invalid', 'false');
+            }
+          });
+        });
+        
+        // Ensure at least one interest is selected
+        const interestCheckboxes = form.querySelectorAll('input[name="interests"]');
+        const interestGroup = form.querySelector('label[for="interests"]').closest('.form-group');
+        
+        function validateInterests() {
+          const checkedBoxes = form.querySelectorAll('input[name="interests"]:checked');
+          const isValid = checkedBoxes.length > 0;
+          
+          if (!isValid) {
+            interestGroup.setAttribute('data-error', 'Please select at least one area of interest');
+          } else {
+            interestGroup.removeAttribute('data-error');
+          }
+          
+          return isValid;
+        }
+        
+        interestCheckboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', validateInterests);
+        });
+        
+        // Validate interests on form submission
+        form.addEventListener('submit', function(e) {
+          if (!validateInterests()) {
+            e.preventDefault();
+            interestGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return false;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
